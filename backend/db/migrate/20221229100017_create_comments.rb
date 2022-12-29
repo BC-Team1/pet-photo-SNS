@@ -4,7 +4,7 @@ class CreateComments < ActiveRecord::Migration[7.0]
       t.references :post, null: false, foreign_key: true
       t.references :user, null: false, foreign_key: true
       t.text :comment
-      t.boolean :deleteFlag
+      t.boolean :deleteFlag, default: false, null:false
       t.timestamp :deletedAt
 
       t.timestamps

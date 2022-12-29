@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :UID
       t.text :introduction
       t.string :icon
-      t.boolean :deleteFlag
+      t.boolean :deleteFlag, default: false, null:false
       t.timestamp :deletedAt
 
       t.timestamps

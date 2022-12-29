@@ -5,7 +5,7 @@ class CreatePosts < ActiveRecord::Migration[7.0]
       t.references :pet_category, null: false, foreign_key: true
       t.string :imageId
       t.text :caption
-      t.boolean :deleteFlag
+      t.boolean :deleteFlag, default: false, null:false
       t.timestamp :deletedAt
       
       t.timestamps
