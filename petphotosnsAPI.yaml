@@ -1,0 +1,356 @@
+openapi: 3.0.3
+info:
+  title: Pet Photo SNS API
+  version: 1.0.0
+servers:
+  - url: "http://localhost:3000"
+tags:
+  - name: user
+    description: Access to user model.
+  - name: pet
+    description: Access to pet model.
+  - name: post
+    description: post data with images
+  - name: comment
+    description: comment
+  - name: fav
+    description: fav
+paths:
+  /users:
+    post:
+      tags:
+        - "user"
+      summary: crete user accaunt
+      operationId: createUser
+      requestBody:
+        description: ユーザープロフィールのオブジェクト
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/create_user"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreateUserResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerErrorResponse"
+  /users/login:
+    post:
+      tags:
+        - "user"
+      summary: Login system by firebase authentication UID
+      operationId: loginUser
+      requestBody:
+        description: User plofile object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UID"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreateUserResponse"
+        "401":
+          $ref: "#/components/responses/UnauthorizedResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerErrorResponse"
+  /users/logout:
+    post:
+      tags:
+        - "user"
+      summary: Logout system
+      operationId: logoutUser
+      requestBody:
+        description: User plofile object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UID"
+      responses:
+        "200":
+          description: successful operation
+  /pets:
+    post:
+      tags:
+        - "pet"
+      summary: Create pet data.
+      operationId: createPets
+      requestBody:
+        description: pet plofile object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/create_pet"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatePetResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerErrorResponse"
+  /posts:
+    post:
+      tags:
+        - "post"
+      summary: Create post data.
+      operationId: createPost
+      requestBody:
+        description: Post object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/create_post"
+      responses:
+        "200":
+          $ref: "#/components/responses/CreatePetResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerErrorResponse"
+
+components:
+  #-------------------------------
+  # Reusable schemas
+  #-------------------------------
+  schemas:
+    UserModel:
+      description: User model
+      required:
+        - id
+        - name
+        - email
+      type: object
+      properties:
+        id:
+          title: User id
+          type: number
+          example: 1
+          readOnly: true
+        name:
+          title: User name
+          type: string
+          example: Taro Yamada
+        email:
+          title: Mail address
+          type: string
+          example: t.yamada@mail.jp
+        UID:
+          title: UID for Firebase Authentication
+          type: string
+          example: 2c6e239a-f02b-d158-2833-c7f883bb5530
+          readOnly: true
+        introduction:
+          title: user's introduction.
+          type: string
+          example: Here is an introduction to life with dogs, cats, and turtles.
+        icon:
+          title: image key of user's icon.
+          type: string
+          example: ""
+    create_user:
+      description: for create user
+      type: object
+      properties:
+        name:
+          title: User name
+          type: string
+          example: Taro Yamada
+        email:
+          title: Mail address
+          type: string
+          example: t.yamada@mail.jp
+        UID:
+          title: UID for Firebase Authentication
+          type: string
+          example: 2c6e239a-f02b-d158-2833-c7f883bb5530
+          readOnly: true
+        introduction:
+          title: user's introduction.
+          type: string
+          example: Here is an introduction to life with dogs, cats, and turtles.
+        icon:
+          title: image key of user's icon.
+          type: string
+          example: ""
+    UID:
+      type: object
+      properties:
+        UID:
+          title: UID for Firebase Authentication
+          type: string
+          example: 2c6e239a-f02b-d158-2833-c7f883bb5530
+    PetModel:
+      type: object
+      properties:
+        id:
+          title: Pet id
+          type: integer
+          example: 1
+        name:
+          title: Pet name
+          type: string
+          example: "choco"
+        icon:
+          title: Image key of pet icon
+          type: string
+          example: "kdji-25gi-dkh508"
+        user_id:
+          title: Pet owner's id
+          type: integer
+          example: 1
+    create_pet:
+      type: object
+      properties:
+        name:
+          title: Pet name
+          type: string
+          example: "choco"
+        icon:
+          title: Image key of pet icon
+          type: string
+          example: "kdji-25gi-dkh508"
+        user_id:
+          title: Pet owner's id
+          type: integer
+          example: 1
+    create_post:
+      type: object
+      properties:
+        userId:
+          title: user id
+          type: integer
+          example: "1"
+        petId:
+          title: user id
+          type: integer
+          example: "1"
+        imageId:
+          title: image id
+          type: integer
+          example: "1"
+        caption:
+          title: 'Caption for the photo posted.'
+          type: string
+          example: 'I came to the dog run today with Choco!'
+    TimeStampsModel:
+      description: TimeStamps Model
+      required:
+        - createAt
+      type: object
+      properties:
+        createAt:
+          title: Created datetime.
+          type: string
+          format: date-time
+          example: 2022-11-27T17:32:28Z
+        updateAt:
+          title: Updated datetime.
+          type: string
+          format: date-time
+          example: 2022-12-27T17:32:28Z
+        deleteAt:
+          title: Deleted datetime.
+          type: string
+          format: date-time
+          example: 2023-01-27T17:32:28Z
+    ErrorModel:
+      description: Response Error Model.
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          title: error code
+          type: string
+          example: 500
+        message:
+          title: error message
+          type: string
+          example: Internal Server Error.
+  #-------------------------------
+  # Reusable responses
+  #-------------------------------
+  responses:
+    GetUserResponse:
+      description: Got user.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/UserModel"
+              - $ref: "#/components/schemas/TimeStampsModel"
+    CreateUserResponse:
+      description: Created user.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserModel"
+    CreatePetResponse:
+      description: Created pet.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PetModel"
+    CreatePostResponse:
+      description: Created post.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/create_post"
+              - $ref: "#/components/schemas/TimeStampsModel"
+
+    BadRequestResponse:
+      description: |
+        Bad Request.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorModel"
+            properties:
+              code:
+                example: 400
+              message:
+                example: Bad Request.
+    UnauthorizedResponse:
+      description: |
+        Unauthorized.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorModel"
+            properties:
+              code:
+                example: 401
+              message:
+                example: Unauthorized.
+    ForbiddenResponse:
+      description: |
+        Forbidden.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorModel"
+            properties:
+              code:
+                example: 403
+              message:
+                example: Forbidden.
+    NotFoundResponse:
+      description: |
+        Not Found.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ErrorModel"
+            properties:
+              code:
+                example: 404
+              message:
+                example: Not Found.
+    InternalServerErrorResponse:
+      description: |-
+        Internal Server Error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorModel"
