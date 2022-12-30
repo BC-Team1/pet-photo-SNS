@@ -5,3 +5,13 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+# pet-category マスターデータ
+require "csv"
+
+CSV.foreach('db/csv/pet_category.csv',headers: true) do |row|
+    PetCategory.create(
+        id: row['id'],
+        category: row['category']
+    )
+end
