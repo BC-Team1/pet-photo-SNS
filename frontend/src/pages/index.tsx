@@ -1,7 +1,21 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import axios from 'axios';
+import { Button } from '@mui/material';
 
 export default function Home() {
+
+  const onClickButton = async () => {
+    console.log("clicked");
+    await axios.get(`http://localhost:3000/api/v1/hello`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <Head>
@@ -12,6 +26,7 @@ export default function Home() {
       </Head>
       <main>
         <h1>Hello World</h1>
+        <Button onClick={onClickButton}>Get hello</Button>
       </main>
     </>
   );
