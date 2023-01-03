@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import axios from 'axios';
-import { app } from '../services/firebase/firebase';
 import { getAuth, createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useAuthContext } from '../services/firebase/AuthContext';
-import { Button, InputLabel, TextField, Snackbar, Alert } from '@mui/material';
+import { app } from '../services/firebase/firebase';
+import { Button, InputLabel, TextField, Snackbar, Alert, Typography, Stack } from '@mui/material';
 
 const SignUp = () => {
   const router = useRouter();
@@ -62,7 +62,7 @@ const SignUp = () => {
   };
 
   return (
-    <div>
+    <>
       <Snackbar
         open={isLoggedIn}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
@@ -74,41 +74,46 @@ const SignUp = () => {
           すでにログインしています
         </Alert>
       </Snackbar>
-      <h2>ユーザー登録</h2>
-      <form onSubmit={handleSignUpWithEmail}>
-        <div
+      <Stack spacing={2} sx={{ m: 6 }}  alignItems='center' justifyContent='center' direction="column">
+        <Typography variant="h6">新規登録</Typography>
+        <Stack component="form"
+          onSubmit={handleSignUpWithEmail}
+          spacing={2}
+          alignItems='center' justifyContent='center' direction="column"
         >
-          <InputLabel>メールアドレス</InputLabel>
-          <TextField
-            name="email"
-            type="email"
-            size="small"
-            onChange={handleChangeEmail}
-          />
-        </div>
-        <div>
-          <InputLabel>パスワード</InputLabel>
-          <TextField
-            name="password"
-            type="password"
-            size="small"
-            onChange={handleChangePassword}
-          />
-        </div>
-        <div>
-          <Button type="submit" variant="outlined">
-            登録
-          </Button>
-        </div>
-        <div>
-          <Link href={"/signin"}>
-            すでに登録している人はこちら
-          </Link>
-        </div>
-      </form>
-      <Button onClick={handleSignInWithGoogle}>Googleで登録</Button>
-      <Button onClick={handleSignInWithGithub}>Githubで登録</Button>
-    </div>
+          <div>
+            <InputLabel>メールアドレス</InputLabel>
+            <TextField
+              name="email"
+              type="email"
+              size="small"
+              onChange={handleChangeEmail}
+            />
+          </div>
+          <div>
+            <InputLabel>パスワード</InputLabel>
+            <TextField
+              name="password"
+              type="password"
+              size="small"
+              onChange={handleChangePassword}
+            />
+          </div>
+          <div>
+            <Button type="submit" variant="outlined">
+              新規登録
+            </Button>
+          </div>
+          <div>
+            <Typography variant="caption" >すでに登録している人は<Link href="/signin">こちら</Link></Typography>
+          </div>
+        </Stack>
+        <Stack spacing={2} >
+          <Button onClick={handleSignInWithGoogle}>Googleで登録</Button>
+          <Button onClick={handleSignInWithGithub}>Githubで登録</Button>
+        </Stack>
+      </Stack>
+    </>
   );
 };
 
