@@ -14,12 +14,6 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      router.push("/");
-    };
-  }, []);
-
   const handleSignInWithEmail = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await signInWithEmailAndPassword(auth, email, password);

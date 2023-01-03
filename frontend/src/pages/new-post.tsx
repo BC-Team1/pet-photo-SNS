@@ -7,12 +7,6 @@ const NewPost = () => {
   const { user } = useAuthContext();
   const isLoggedIn = !!user;
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push("/signin");
-    };
-  }, []);
-
   return (
     <h1>New post</h1>
   );

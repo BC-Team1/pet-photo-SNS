@@ -28,46 +28,23 @@ export const AuthProvider = ({ children }: AuthProps) => {
   const isAvailableForViewing =
     router.pathname === "/" ||
     router.pathname === "/signin" ||
-    router.pathname === "/signup" ||
-    router.pathname === "/mypage" ||
-    router.pathname === "/new-post"
+    router.pathname === "/signup"
   const value = {
     user,
   };
 
-  // const handleUser = (user: UserType) => {
-  //   if (!user && !isAvailableForViewing) {
-  //     router.push("/");
-  //   } else {
-  //     setUser(user);
-  //   }
-  //   setIsLoading(false);
-  // };
-
   useEffect(() => {
-    console.log("user", user);
-
     const authStateChanged = onAuthStateChanged(auth, async (user) => {
       setUser(user);
-      !user && !isAvailableForViewing && (await router.push("/"));
+      !user && !isAvailableForViewing && (await router.push("/signin"));
     });
 
-    // setIsLoading(true);
-    // const authStateChanged = onAuthStateChanged(auth, handleUser);
-
     return () => {
-      console.log("user", user);
       authStateChanged();
-      console.log("user", user);
     };
   }, []);
 
   return (
-    // (user && (
-    //   <AuthContext.Provider value={value}>
-    //   {children}
-    //   </AuthContext.Provider>
-    // ))
     <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
