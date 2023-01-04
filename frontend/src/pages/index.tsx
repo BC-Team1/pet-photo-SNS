@@ -1,13 +1,29 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import axios from 'axios';
+import { useAuthContext } from '../services/firebase/AuthContext';
 import { Button } from '@mui/material';
 
 export default function Home() {
+  const { user } = useAuthContext();
+
+  // 認証テスト
+  const setConfig =async () => {
+    const token = await user?.getIdToken();
+    const config = {
+      headers: { authorization: `Bearer ${token}` },
+    };
+    return config;
+  };
 
   const onClickButton = async () => {
-    console.log("clicked");
-    await axios.get(`http://localhost:3000/api/v1/hello`)
+    const config = await setConfig();
+    console.log("clicked", config);
+    await axios.get(`http://localhost:3000/api/v1/users`, {
+      params: {
+        uid: user?.uid
+      },
+    })
       .then((res) => {
         console.log(res);
       })
