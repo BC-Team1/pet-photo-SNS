@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_29_101522) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_29_101253) do
   create_table "comments", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "post_id", null: false
     t.bigint "user_id", null: false
@@ -56,6 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_101522) do
     t.bigint "pet_category_id", null: false
     t.string "name"
     t.string "icon"
+    t.text "introduction"
     t.boolean "deleteFlag", default: false, null: false
     t.timestamp "deletedAt"
     t.datetime "created_at", null: false
@@ -66,14 +67,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_101522) do
 
   create_table "posts", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "pet_category_id", null: false
+    t.bigint "pet_id", null: false
     t.string "imageId"
     t.text "caption"
     t.boolean "deleteFlag", default: false, null: false
     t.timestamp "deletedAt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["pet_category_id"], name: "index_posts_on_pet_category_id"
+    t.index ["pet_id"], name: "index_posts_on_pet_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -96,6 +97,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_101522) do
   add_foreign_key "images", "posts"
   add_foreign_key "pets", "pet_categories"
   add_foreign_key "pets", "users"
-  add_foreign_key "posts", "pet_categories"
+  add_foreign_key "posts", "pets"
   add_foreign_key "posts", "users"
 end
