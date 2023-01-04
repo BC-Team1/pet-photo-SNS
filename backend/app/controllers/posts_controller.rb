@@ -14,7 +14,6 @@ class PostsController < ApplicationController
   end
 
   # 新規投稿の作成
-  # 
   def new
     @post = Post.new
   end
@@ -22,8 +21,8 @@ class PostsController < ApplicationController
   # 新規投稿の登録
   # POST  /posts(.:format)
   def create  
-      Post.transaction do
-        if Pet.exists?(id: params[:pet_id],user_id: params[:user_id])
+      Post.transaction do  # トランザクションの開始
+        if Pet.exists?(id: params[:pet_id],user_id: params[:user_id])  # バリデーション
           @post = Post.new(post_params)
           @post.image.attach(params[:image])
 
@@ -34,8 +33,7 @@ class PostsController < ApplicationController
         end
       end        
       rescue => e
-        puts "rescue"
-        render plain: e.message, status: 500  
+        render plain: e.message, status: 500  # status: 500 でいいか?
   end
 
   def edit
