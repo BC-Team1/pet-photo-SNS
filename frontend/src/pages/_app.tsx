@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from '../theme';
 import createEmotionCache from '../createEmotionCache';
-import { AuthProvider } from '../services/firebase/AuthContext';
+
 import Header from '../components/Header';
 
 const clientSideEmotionCache = createEmotionCache();
@@ -16,7 +16,7 @@ interface MyAppProps extends AppProps {
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
-    <AuthProvider>
+
       <CacheProvider value={emotionCache}>
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
@@ -27,7 +27,7 @@ function MyApp(props: MyAppProps) {
           <Component {...pageProps} />
         </ThemeProvider>
       </CacheProvider>
-    </AuthProvider>
+
   );
 };
 

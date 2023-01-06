@@ -35,16 +35,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_101253) do
     t.index ["user_id"], name: "index_favs_on_user_id"
   end
 
-  create_table "images", charset: "utf8mb4", force: :cascade do |t|
-    t.bigint "post_id", null: false
-    t.string "image_key"
-    t.boolean "deleteFlag", default: false, null: false
-    t.timestamp "deletedAt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_images_on_post_id"
-  end
-
   create_table "pet_categories", charset: "utf8mb4", force: :cascade do |t|
     t.string "category", null: false
     t.datetime "created_at", null: false
@@ -55,7 +45,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_101253) do
     t.bigint "user_id", null: false
     t.bigint "pet_category_id", null: false
     t.string "name"
-    t.string "icon"
     t.text "introduction"
     t.boolean "deleteFlag", default: false, null: false
     t.timestamp "deletedAt"
@@ -68,7 +57,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_101253) do
   create_table "posts", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "pet_id", null: false
-    t.string "imageId"
     t.text "caption"
     t.boolean "deleteFlag", default: false, null: false
     t.timestamp "deletedAt"
@@ -83,7 +71,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_101253) do
     t.string "email"
     t.string "UID"
     t.text "introduction"
-    t.string "icon"
     t.boolean "deleteFlag", default: false, null: false
     t.timestamp "deletedAt"
     t.datetime "created_at", null: false
@@ -94,7 +81,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_101253) do
   add_foreign_key "comments", "users"
   add_foreign_key "favs", "posts"
   add_foreign_key "favs", "users"
-  add_foreign_key "images", "posts"
   add_foreign_key "pets", "pet_categories"
   add_foreign_key "pets", "users"
   add_foreign_key "posts", "pets"

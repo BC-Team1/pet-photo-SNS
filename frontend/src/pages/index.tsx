@@ -1,20 +1,20 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import axios from 'axios';
-import { Button } from '@mui/material';
+import Head from "next/head";
+import Grid from "@mui/material/Grid";
+import PostCard from "../components/PostCard";
+import { postList } from "../lib/postApiClient";
+import Link from 'next/link';
 
-export default function Home() {
-
-  const onClickButton = async () => {
-    console.log("clicked");
-    await axios.get(`http://localhost:3000/api/v1/hello`)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+export async function getServerSideProps() {
+  const posts = await postList.get("/");
+  return {
+    props: {
+      posts: posts.data,
+    },
   };
+}
+
+export default function Home(props:any) {
+  const posts = props.posts;
 
   return (
     <>
@@ -25,9 +25,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Hello World</h1>
-        <Button onClick={onClickButton}>Get hello</Button>
+        <Grid container spacing={4} mt={0} justifyContent="center">
+          {posts.map((post:any) => {
+            return <PostCard key={post.id} post={post}/>;
+          })}
+        </Grid>
       </main>
     </>
   );
-};
+}

@@ -3,7 +3,7 @@ class PetsController < ApplicationController
   # GET  user/:user_id/pets(.:format)
   def index
     @pet = Pet.where(user_id: params[:user_id])
-    render json: { status: 'success', data: @pet }
+    render json: @pet 
   end
 
   # ペット詳細の表示

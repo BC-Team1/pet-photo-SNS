@@ -21,55 +21,52 @@ User.create(
     name: 'owner1',
     email: 'owner1@mail.com',
     UID: 'SlhEFsnryKVJed4lNxX4g0XwhzI2',
-    introduction: 'Here is an introduction to life with dogs, cats, and turtles.',
-    icon: 'image1.jpg'
+    introduction: '犬とウサギと亀を飼っています。',
 )
 User.create(
     name: 'owner2',
     email: 'owner2@mail.com',
     UID: 'yKVJedxX4g04lNXwhzISlhEFsnr2',
-    introduction: 'mylife in Monaco with 3 cats!',
-    icon: 'image2.png'
+    introduction: '3匹の猫と暮らしています。',
 )
 
 # pets テスト用データ
 Pet.create(
     user_id: 1,
     pet_category_id: 1,
-    name: 'choco',
-    icon: 'chocoimg.jpg'
+    name: 'ちょこ',
 )
+
 Pet.create(
     user_id: 1,
-    pet_category_id: 2,
-    name: 'mochi',
-    icon: 'mochiimg.jpg'
+    pet_category_id: 3,
+    name: 'もち',
 )
+
+Pet.create(
+    user_id: 1,
+    pet_category_id: 11 ,
+    name: 'ぐら',
+)
+
 Pet.create(
     user_id: 2,
     pet_category_id: 2,
-    name: 'blanc',
-    icon: 'blancimg.png'
+    name: 'きなこ',
 )
+
 Pet.create(
     user_id: 2,
     pet_category_id: 2,
-    name: 'noir',
-    icon: 'noirimg.png'
+    name: 'キジ',
 )
+
 
 # posts テスト用データ
 Post.create(
     user_id: 1,
     pet_id: 1,
-    imageId: 1, 
-    caption: "I came to the dog run today with Choco!"
-)
-
-# images テスト用データ
-Image.create(
-    post_id: 1,
-    image_key: 'choco20221230.jpg'
+    caption: "ちょこです。"
 )
 
 # favs テスト用データ
