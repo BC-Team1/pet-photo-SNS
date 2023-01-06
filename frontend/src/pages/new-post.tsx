@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useRouter } from 'next/router'; 
 import {
   Button,
   FormControl,
@@ -30,6 +31,7 @@ type Inputs = {
 };
 
 const NewPost = (props: any) => {
+  const router = useRouter();
   const pets = props.pets;
 
   const { control, handleSubmit } = useForm<Inputs>({
@@ -54,6 +56,7 @@ const NewPost = (props: any) => {
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     console.log(data);
     await createPost.post("/",data);
+    router.push("/");
   };
 
   return (

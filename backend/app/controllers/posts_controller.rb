@@ -3,8 +3,15 @@ class PostsController < ApplicationController
   # GET  user/:user_id/posts(.:format)
   def index
     # @post = Post.where(user_id: params[:user_id]).where(deleteFlag: false)
-    @post = Post.includes(:user, :pet).where(user_id: params[:user_id]).where(deleteFlag: false)
+    @post = Post.includes(:user, :pet).where(deleteFlag: false)
     render json: @post.order(id: "DESC"), include: [:user, :pet], methods: [:image_url]
+  end
+  
+  # すべての投稿一覧の表示
+  # GET /index/posts/post_all(.:format)
+  def post_all
+    @post = Post.includes(:user, :pet).all
+    render json: @post, include: [:user, :pet], methods: [:image_url] 
   end
 
   # 投稿詳細の表示

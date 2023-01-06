@@ -25,7 +25,7 @@ export default function Home(props:any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Grid container spacing={4} mt={0} justifyContent="center">
+        <Grid container rowSpacing={3} columnSpacing={3} mt={10} justifyContent="center">
           {posts.map((post:any) => {
             return <PostCard key={post.id} post={post}/>;
           })}
